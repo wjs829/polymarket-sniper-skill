@@ -186,6 +186,10 @@ def place_order(market_id, side):
         }
         
         headers = get_api_headers("POST", "/orders", str(order_payload))
+        if not headers:
+            log_event("ERROR", "TRADE", "Missing API credentials for order signing.")
+            return
+        
         # res = requests.post(f"{CLOB_API}/orders", json=order_payload, headers=headers)
         
         # if res.status_code == 201:
