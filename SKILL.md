@@ -13,7 +13,7 @@ metadata:
   version: "1.0.0"
   author: "innieai"
   website: "https://github.com/wjs829/polymarket-sniper-skill"
-  upgrade_url: "https://your-domain.com/marketing/sniper-pro.html"
+  upgrade_url: "https://wessmith3.gumroad.com/l/cmdcpl"
 ---
 
 # Polymarket Sniper Bot Skill 🚀
