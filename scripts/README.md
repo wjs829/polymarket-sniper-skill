@@ -40,7 +40,15 @@ This skill is **free to use** in simulation mode. For live trading:
 | Lifetime updates | ❌ | ✅ |
 | Custom risk params | ❌ | ✅ |
 
-**Upgrade Now:** [Buy Polymarket Sniper Bot Pro](https://wessmith3.gumroad.com/l/cmdcpl) (one-time $99, instant license)
+**Upgrade Now:** [Buy Polymarket Sniper Bot Pro](https://wessmith3.gumroad.com/l/cmdcpl) (one-time $99)
+
+After purchase, you'll receive a **license key** via email. Add it to your `config.yaml`:
+
+```yaml
+pro_license_key: "LIC-ABC123..."
+```
+
+The bot will validate the key on startup and enable live trading.
 
 For enterprise/custom builds: [wessmith9822@gmail.com](mailto:wessmith9822@gmail.com)
 
