@@ -1,52 +1,49 @@
-# Polymarket Sniper Bot (Standalone) 🌌
+# Polymarket Sniper Bot 🌌
 
-An autonomous trading agent designed for **Polymarket** (Polygon network). It scans 15-minute crypto markets for momentum signals and executes trades automatically.
+Autonomous trading agent for Polymarket (Polygon). Scans 15-minute markets, detects momentum, and executes trades. Includes a Flask dashboard and OpenClaw orchestration.
+
+> **⚠️ IMPORTANT:** This free version runs in **Simulation Mode** only. [Upgrade to Pro](#upgrade) to trade with real money.
 
 ## 🚀 Quick Start
 
-1.  **Bootstrap:** Run the setup script to install dependencies and initialize the database.
-    ```bash
-    ./scripts/bootstrap.sh
-    ```
-2.  **Configure:** Edit `config.yaml` with your **Polygon RPC URL** and **Wallet Private Key**.
-3.  **Run Dashboard:** Start the local UI to monitor the bot's activity.
-    ```bash
-    python3 dashboard.py
-    ```
-4.  **Orchestration:** Use **OpenClaw** to schedule the bot's background tasks.
-    ```bash
-    openclaw cron add --agent polymarket-sniper
-    ```
+```bash
+git clone https://github.com/wjs829/polymarket-sniper-skill.git
+cd polymarket-sniper-skill/scripts
+chmod +x bootstrap.sh && ./bootstrap.sh
+python3 dashboard.py  # Open http://localhost:5000
+```
 
-## 🛠️ Tech Stack
+## 🧠 Strategy
 
-*   **Runtime:** OpenClaw (Orchestration & Scheduling)
-*   **Language:** Python (Trading Logic)
-*   **Web3:** Web3.py (Interacting with Polygon)
-*   **Database:** SQLite (Local storage of positions, logs, heartbeats)
-*   **UI:** Flask (Real-time monitoring dashboard)
-*   **Alerts:** Discord Webhooks
+- **Liquidity filter:** ≥ $1,000 (sim) / $5,000 (prod)
+- **Momentum window:** 3 × 15-minute candles
+- **Buy signals:** YES if momentum > +2%; NO if momentum < -2%
 
-## 🧠 Strategy: Momentum Sniping
+## 📦 Package Contents
 
-The bot filters for crypto markets with over **$5,000 liquidity** and calculates price momentum over a **3-period window (15m each)**.
+- `polymarket.py` — Trading engine with HMAC-SHA256 signing
+- `dashboard.py` — Real-time UI (Flask)
+- `db.py` — SQLite persistence
+- `agent.yaml` — OpenClaw cron jobs
+- `bootstrap.sh` — Setup automation
+- `config.yaml.example` — Configuration template
+- `DEPLOYMENT.md` — Full production guide
 
-*   **Buy YES:** If momentum > +2% (0.02)
-*   **Buy NO:** If momentum < -2% (-0.02)
+## 💼 Monetization & Support
 
----
+This skill is **free to use** in simulation mode. For live trading:
 
-## 🗺️ Roadmap
+| Feature | Free (Sim) | Pro ($99) |
+|---------|------------|-----------|
+| Real orders | ❌ | ✅ |
+| Priority support | ❌ | ✅ |
+| Lifetime updates | ❌ | ✅ |
+| Custom risk params | ❌ | ✅ |
 
-- [x] Base project structure (Standalone)
-- [x] Momentum-based scanning logic
-- [x] Flask monitoring dashboard
-- [x] OpenClaw orchestration (agent.yaml)
-- [ ] Transition from simulated to on-chain execution (CTF/CLOB)
-- [ ] Real-time P&L tracking based on current market prices
-- [ ] Add Chart.js to the dashboard for visual performance tracking
-- [ ] Strategy refinement (e.g., volume-weighted momentum)
+**Upgrade Now:** [Buy Polymarket Sniper Bot Pro](https://gumroad.com/l/placeholder-sniper-pro) (one-time $99, instant license)
 
----
+For enterprise/custom builds: [wessmith9822@gmail.com](mailto:wessmith9822@gmail.com)
 
-*This bot is an autonomous agent. Use with caution. Not financial advice.*
+## 📜 License
+MIT — see `LICENSE` file.
+

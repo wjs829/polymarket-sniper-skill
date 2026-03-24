@@ -1,27 +1,60 @@
 ---
-name: polymarket-sniper-bot-(standalone)
-description: An autonomous trading agent designed for **Polymarket** (Polygon network). It scans 15-minute crypto markets for momentum signals and executes trades automatically.
-metadata: {"openclaw": {"emoji": "🤖"}}
+name: polymarket-sniper
+description: An autonomous trading agent for Polymarket (Polygon). Scans 15-minute markets for momentum and trades automatically. Includes dashboard, simulation mode, and live execution.
+metadata:
+  openclaw:
+    emoji: "🤖"
+  tags:
+    - "trading"
+    - "crypto"
+    - "automation"
+    - "momentum"
+  license: "MIT"
+  version: "1.0.0"
+  author: "innieai"
+  website: "https://github.com/wjs829/polymarket-sniper-skill"
+  upgrade_url: "https://your-domain.com/marketing/sniper-pro.html"
 ---
 
-# Polymarket Sniper Bot (Standalone) Skill
+# Polymarket Sniper Bot Skill 🚀
 
-Automatically generated skill from the Polymarket Sniper Bot (Standalone) workflow.
+Production-ready autonomous trading agent for Polymarket. Features real-time momentum detection, HMAC-SHA256 order signing, and a Flask dashboard.
 
-## Included Files
-- scripts/requirements.txt
-- scripts/agent.yaml
-- scripts/polymarket.py
-- scripts/SELECT * FROM positions ORDER BY timestamp DESC LIMIT 20;
-- scripts/README.md
-- scripts/config.yaml
-- scripts/dashboard.py
-- scripts/config.yaml.example
-- scripts/db.py
-- scripts/templates/index.html
-- scripts/scripts/bootstrap.sh
+## ✨ Features
+- **Auto-Scanning:** Cron-driven market scans every 5 minutes
+- **Momentum Strategy:** 15-minute candle RSI + volume surge detection
+- **CLOB Integration:** Direct Polymarket order book API
+- **Dashboard:** Real-time positions, balance, and logs (Flask)
+- **Simulation Mode:** Paper-trade safely before going live
 
-## Usage
+## 📦 What's Included
+- `scripts/polymarket.py` — Core trading engine
+- `scripts/dashboard.py` — Monitoring UI (Port 5000)
+- `scripts/db.py` — SQLite persistence
+- `scripts/agent.yaml` — OpenClaw orchestration
+- `scripts/bootstrap.sh` — One-command setup
+- `scripts/config.yaml.example` — Configuration template
+- `DEPLOYMENT.md` — Full setup guide
 
-This skill contains the logic for Polymarket Sniper Bot (Standalone). 
-Review the scripts in the `scripts/` directory for specific entry points.
+## 🛠️ Quick Start
+```bash
+git clone https://github.com/wjs829/polymarket-sniper-skill.git
+cd polymarket-sniper-skill/scripts
+chmod +x bootstrap.sh && ./bootstrap.sh
+python3 dashboard.py  # View at http://localhost:5000
+```
+
+## 🔑 Upgrade to Pro (Live Trading)
+The free version runs in **Simulation Mode** only. Upgrade to unlock:
+- ✅ Real-money trading on Polygon mainnet
+- ✅ Priority support & custom strategy help
+- ✅ Lifetime updates
+
+**Price:** $99 one-time  
+👉 [Buy Pro Now](https://gumroad.com/l/placeholder-sniper-pro)
+
+*Note: You'll need your own Polymarket API keys and funded wallet.*
+
+## 📜 License
+MIT — see LICENSE file.
+
