@@ -1,0 +1,25 @@
+# Polymarket Sniper Bot Configuration
+# Copy this to config.yaml and fill in your details
+
+# Polygon RPC URL (e.g., Alchemy, QuickNode, or Infura)
+polygon_rpc_url: "https://polygon-mainnet.g.alchemy.com/v2/YOUR_API_KEY"
+
+# Your Polymarket Wallet Address
+wallet_address: "0x37c6ec18176325678077d5ec3e5eb5e0209c373f"
+
+# Your Polymarket Wallet Private Key (Keep this secret!)
+wallet_private_key: "0xYOUR_PRIVATE_KEY"
+
+# Optional: Discord Webhook for alerts
+discord_webhook: "https://discord.com/api/webhooks/..."
+
+# Polymarket CLOB API Credentials (from Settings -> API)
+clob_api_key: "YOUR_API_KEY"
+clob_api_secret: "YOUR_API_SECRET"
+clob_api_passphrase: "YOUR_API_PASSPHRASE"
+
+# Strategy Parameters
+momentum_threshold: 0.02
+liquidity_min_usd: 5000
+position_size_usd: 100
+resolution: "15m"
