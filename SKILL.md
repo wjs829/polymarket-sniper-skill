@@ -45,13 +45,12 @@ python3 dashboard.py  # View at http://localhost:5000
 ```
 
 ## 🔑 Upgrade to Pro (Live Trading)
-The free version runs in **Simulation Mode** only. Upgrade to unlock:
-- ✅ Real-money trading on Polygon mainnet
-- ✅ Priority support & custom strategy help
-- ✅ Lifetime updates
+The free version runs in **Simulation Mode** only. Upgrade to unlock live trading.
 
 **Price:** $99 one-time  
-👉 [Buy Pro Now](https://gumroad.com/l/placeholder-sniper-pro)
+👉 [Buy Pro Now](https://wessmith3.gumroad.com/l/cmdcpl)
+
+After purchase, set `pro_mode: true` in your `config.yaml` to enable live trading.
 
 *Note: You'll need your own Polymarket API keys and funded wallet.*
 
