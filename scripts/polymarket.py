@@ -10,33 +10,6 @@ from web3 import Web3
 from eth_account.messages import encode_typed_data
 from db import log_event, record_position, send_heartbeat
 
-# --- License Validation ---
-LICENSE_SERVER = os.getenv("LICENSE_SERVER", "http://localhost:8080")
-PRO_LICENSE_KEY = os.getenv("PRO_LICENSE_KEY", "")  # Set in config.yaml or env
-
-def validate_pro_license():
-    if not PRO_LICENSE_KEY:
-        return False
-    try:
-        resp = requests.post(
-            f"{LICENSE_SERVER}/api/validate",
-            json={"key": PRO_LICENSE_KEY, "product": "polymarket-sniper-pro"},
-            timeout=5
-        )
-        if resp.status_code == 200:
-            data = resp.json()
-            return data.get("valid", False)
-    except Exception as e:
-        log_event("WARN", "LICENSE", f"License check failed: {str(e)}")
-    return False
-
-IS_LIVE = validate_pro_license() if PRO_LICENSE_KEY else False
-
-if IS_LIVE:
-    log_event("INFO", "LICENSE", "✅ Pro license validated. Live trading ENABLED.")
-else:
-    log_event("INFO", "LICENSE", "⏸️ No valid Pro license. Running in SIMULATION mode.")
-
 # Constants
 GAMMA_API = "https://gamma-api.polymarket.com"
 CLOB_API = "https://clob.polymarket.com"
@@ -45,9 +18,22 @@ ERC20_ABI = '[{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"na
 
 def get_config():
     if not os.path.exists("config.yaml"):
-        return {"discord_webhook": None, "polygon_rpc_url": "", "wallet_private_key": ""}
+        return {"discord_webhook": None, "polygon_rpc_url": "", "wallet_private_key": "", "pro_mode": False}
     with open("config.yaml", "r") as f:
-        return yaml.safe_load(f)
+        cfg = yaml.safe_load(f)
+        # Ensure pro_mode exists, default False
+        if "pro_mode" not in cfg:
+            cfg["pro_mode"] = False
+        return cfg
+
+# Check pro_mode at module load
+config = get_config()
+IS_LIVE = config.get("pro_mode", False)
+
+if IS_LIVE:
+    log_event("INFO", "MODE", "🟢 Pro mode ENABLED — live trading active.")
+else:
+    log_event("INFO", "MODE", "🟡 Simulation mode (set pro_mode: true to go live)")
 
 def alert(msg):
     config = get_config()
@@ -173,11 +159,9 @@ def calculate_momentum(market_id):
 def place_order(market_id, side):
     config = get_config()
     
-    # --- LICENSE GATE ---
     if not IS_LIVE:
-        log_event("SIM", "TRADE", f"Would place {side} buy on {market_id} (requires Pro license)")
+        log_event("SIM", "TRADE", f"Would place {side} buy on {market_id} (pro_mode: false)")
         return
-    # ------------------
     
     w3 = get_web3()
     acc = get_account()

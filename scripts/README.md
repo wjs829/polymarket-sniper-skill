@@ -42,13 +42,11 @@ This skill is **free to use** in simulation mode. For live trading:
 
 **Upgrade Now:** [Buy Polymarket Sniper Bot Pro](https://wessmith3.gumroad.com/l/cmdcpl) (one-time $99)
 
-After purchase, you'll receive a **license key** via email. Add it to your `config.yaml`:
+After purchase, simply set `pro_mode: true` in your `config.yaml` to enable live trading:
 
 ```yaml
-pro_license_key: "LIC-ABC123..."
+pro_mode: true
 ```
-
-The bot will validate the key on startup and enable live trading.
 
 For enterprise/custom builds: [wessmith9822@gmail.com](mailto:wessmith9822@gmail.com)
 
