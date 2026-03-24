@@ -20,18 +20,25 @@ def get_config():
     if not os.path.exists("config.yaml"):
         return {"discord_webhook": None, "polygon_rpc_url": "", "wallet_private_key": "", "pro_mode": False}
     with open("config.yaml", "r") as f:
-        cfg = yaml.safe_load(f)
-        # Ensure pro_mode exists, default False
-        if "pro_mode" not in cfg:
-            cfg["pro_mode"] = False
-        return cfg
+        cfg = yaml.safe_load(f) or {}
+    # Ensure pro_mode exists, default False
+    if "pro_mode" not in cfg:
+        cfg["pro_mode"] = False
+    return cfg
 
 # Check pro_mode at module load
 config = get_config()
 IS_LIVE = config.get("pro_mode", False)
 
 if IS_LIVE:
-    log_event("INFO", "MODE", "🟢 Pro mode ENABLED — live trading active.")
+    # Validate required credentials for live trading
+    required = ["polygon_rpc_url", "wallet_private_key", "clob_api_key", "clob_api_secret", "clob_api_passphrase"]
+    missing = [k for k in required if not config.get(k)]
+    if missing:
+        log_event("ERROR", "CONFIG", f"Pro mode enabled but missing config keys: {missing}. Falling back to simulation.")
+        IS_LIVE = False
+    else:
+        log_event("INFO", "MODE", "🟢 Pro mode ENABLED — live trading active.")
 else:
     log_event("INFO", "MODE", "🟡 Simulation mode (set pro_mode: true to go live)")
 
@@ -193,36 +200,46 @@ def place_order(market_id, side):
             log_event("ERROR", "TRADE", f"Could not find token ID for {side} on market {market_id}")
             return
 
-        # Prepare order payload
-        # Note: This is a simplified mock. Real Polymarket CLOB orders require complex EIP-712 signing.
-        # We'll log the attempt and current state.
+        # Determine price: fetch latest 15m candle if possible
+        price = 0.50  # fallback
+        try:
+            end = int(time.time())
+            start = end - 900
+            price_path = f"/prices/history?market={market_id}&interval=15m&start={start}&end={end}"
+            price_headers = get_api_headers("GET", price_path)
+            price_resp = requests.get(f"{CLOB_API}{price_path}", headers=price_headers, timeout=5)
+            if price_resp.status_code == 200:
+                price_data = price_resp.json()
+                if len(price_data) > 0:
+                    price = float(price_data[-1].get('price', 0.50))
+        except Exception:
+            pass  # use fallback
+
+        size = pos_size / price  # number of shares
+
         order_payload = {
             "token_id": token_id,
-            "price": 0.50, # Mock price
+            "price": price,
             "side": "BUY",
-            "size": pos_size / 0.50 # Number of shares
+            "size": size
         }
         
         headers = get_api_headers("POST", "/orders", str(order_payload))
         if not headers:
             log_event("ERROR", "TRADE", "Missing API credentials for order signing.")
             return
-        
-        # res = requests.post(f"{CLOB_API}/orders", json=order_payload, headers=headers)
-        
-        # if res.status_code == 201:
-        #     tx_hash = res.json().get('orderID', 'unknown')
-        #     record_position(market_id, side, pos_size, 0.5, tx_hash)
-        #     log_event("INFO", "TRADE", f"LIVE TRADE PLACED: {side} buy on {market_id}. OrderID: {tx_hash}")
-        #     alert(f"🚀 Sniper Bot: LIVE TRADE PLACED on {market_id}")
-        # else:
-        #     log_event("ERROR", "TRADE", f"Failed to place order: {res.text}")
 
-        # Logging as pending live to confirm we reached this point with keys
-        tx_hash = "0xlive_key_ready_" + hex(int(time.time()))[2:]
-        record_position(market_id, side, pos_size, 0.5, tx_hash)
-        log_event("INFO", "TRADE", f"Live trade logic triggered with active API keys. Mock Hash: {tx_hash}")
-        alert(f"💸 Sniper Bot: Live trade logic triggered for {side} buy on {market_id}")
+        # Submit order to CLOB
+        res = requests.post(f"{CLOB_API}/orders", json=order_payload, headers=headers, timeout=10)
+        if res.status_code in (200, 201):
+            result = res.json()
+            tx_hash = result.get('orderID') or result.get('id') or 'unknown'
+            record_position(market_id, side, pos_size, price, tx_hash)
+            log_event("INFO", "TRADE", f"LIVE TRADE PLACED: {side} buy on {market_id}. OrderID: {tx_hash}")
+            alert(f"🚀 Sniper Bot: LIVE TRADE PLACED on {market_id}")
+        else:
+            log_event("ERROR", "TRADE", f"Order failed {res.status_code}: {res.text}")
+            alert(f"❌ Sniper Bot: Order failed on {market_id}")
 
     except Exception as e:
         log_event("ERROR", "TRADE", f"Order placement exception: {str(e)}")
