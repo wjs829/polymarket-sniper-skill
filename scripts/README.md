@@ -2,7 +2,7 @@
 
 Autonomous trading agent for Polymarket (Polygon). Scans 15-minute markets, detects momentum, and executes trades. Includes a Flask dashboard and OpenClaw orchestration.
 
-> **⚠️ IMPORTANT:** This free version runs in **Simulation Mode** only. [Upgrade to Pro](#upgrade) to trade with real money.
+*Last built: 2026-03-24*
 
 ## 🚀 Quick Start
 
@@ -28,27 +28,6 @@ python3 dashboard.py  # Open http://localhost:5000
 - `bootstrap.sh` — Setup automation
 - `config.yaml.example` — Configuration template
 - `DEPLOYMENT.md` — Full production guide
-
-## 💼 Monetization & Support
-
-This skill is **free to use** in simulation mode. For live trading:
-
-| Feature | Free (Sim) | Pro ($99) |
-|---------|------------|-----------|
-| Real orders | ❌ | ✅ |
-| Priority support | ❌ | ✅ |
-| Lifetime updates | ❌ | ✅ |
-| Custom risk params | ❌ | ✅ |
-
-**Upgrade Now:** [Buy Polymarket Sniper Bot Pro](https://wessmith3.gumroad.com/l/cmdcpl) (one-time $99)
-
-After purchase, simply set `pro_mode: true` in your `config.yaml` to enable live trading:
-
-```yaml
-pro_mode: true
-```
-
-For enterprise/custom builds: [wessmith9822@gmail.com](mailto:wessmith9822@gmail.com)
 
 ## 📜 License
 MIT — see `LICENSE` file.

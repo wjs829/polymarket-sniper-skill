@@ -29,20 +29,17 @@ clob_api_secret: "..."
 clob_api_passphrase: "..."
 ```
 
-## 4. Free vs Pro Mode
+## 4. Trading Mode
 
 The bot runs in **Simulation Mode** by default (no real trades). To enable live trading:
 
-1. Purchase the Pro upgrade: [Buy Sniper Pro](https://wessmith3.gumroad.com/l/cmdcpl) ($99 one‑time)
-2. Add `pro_mode: true` to your `config.yaml`:
+1. Ensure your wallet is funded with MATIC (gas) and USDC.e (trading).
+2. Configure all required Polymarket CLOB API credentials in `config.yaml`.
+3. Set `live_trading: true` in your configuration (or simply ensure simulation mode is disabled).
 
-```yaml
-pro_mode: true
-```
+The bot will validate wallet balance and API connectivity on startup. Logs will indicate the active mode.
 
-3. Restart the bot. Logs will show: `🟢 Pro mode ENABLED — live trading active.`
-
-**Note:** Pro mode requires all CLOB API credentials and a funded USDC wallet.
+**Note:** Live trading involves real funds. thoroughly test in simulation first.
 
 ## 5. Run the Dashboard
 Start the real-time monitoring UI:
@@ -52,20 +49,6 @@ python3 dashboard.py
 View the dashboard at `http://your-server-ip:5000`.
 
 ## 6. Enable Automation (OpenClaw)
-If you are using OpenClaw, register the agent and add the cron jobs:
-```bash
-openclaw agents add sniper --workspace . --model google/gemini-3-flash-preview
-openclaw cron add --name "Sniper: Scan" --cron "*/5 * * * *" --agent sniper --message "scan"
-```
-
-## 4. Run the Dashboard
-Start the real-time monitoring UI:
-```bash
-python3 dashboard.py
-```
-View the dashboard at `http://your-server-ip:5000`.
-
-## 5. Enable Automation (OpenClaw)
 If you are using OpenClaw, register the agent and add the cron jobs:
 ```bash
 openclaw agents add sniper --workspace . --model google/gemini-3-flash-preview

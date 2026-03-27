@@ -10,10 +10,9 @@ metadata:
     - "automation"
     - "momentum"
   license: "MIT"
-  version: "1.0.0"
+  version: "1.0.1"
   author: "innieai"
   website: "https://github.com/wjs829/polymarket-sniper-skill"
-  upgrade_url: "https://wessmith3.gumroad.com/l/cmdcpl"
 ---
 
 # Polymarket Sniper Bot Skill 🚀
@@ -43,16 +42,6 @@ cd polymarket-sniper-skill/scripts
 chmod +x bootstrap.sh && ./bootstrap.sh
 python3 dashboard.py  # View at http://localhost:5000
 ```
-
-## 🔑 Upgrade to Pro (Live Trading)
-The free version runs in **Simulation Mode** only. Upgrade to unlock live trading.
-
-**Price:** $99 one-time  
-👉 [Buy Pro Now](https://wessmith3.gumroad.com/l/cmdcpl)
-
-After purchase, set `pro_mode: true` in your `config.yaml` to enable live trading.
-
-*Note: You'll need your own Polymarket API keys and funded wallet.*
 
 ## 📜 License
 MIT — see LICENSE file.
