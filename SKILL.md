@@ -10,6 +10,7 @@ metadata:
     - "automation"
     - "momentum"
   license: "MIT"
+upgrade_url: https://wessmith3.gumroad.com/l/cmdcpl
   version: "1.0.1"
   author: "innieai"
   website: "https://github.com/wjs829/polymarket-sniper-skill"
@@ -45,4 +46,3 @@ python3 dashboard.py  # View at http://localhost:5000
 
 ## 📜 License
 MIT — see LICENSE file.
-
